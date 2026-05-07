@@ -1,26 +1,88 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-navy: #0A1F3F;
+  --color-navy-light: #132F52;
+  --color-navy-dark: #07182E;
+  --color-teal: #00C2BA;
+  --color-teal-dark: #00A8A0;
+  --color-charcoal: #2D3748;
+  --color-gray-light: #F8F9FA;
+  --color-gray-medium: #A0AEC0;
+
+  --font-sans: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --radius-default: 6px;
+  --radius-card: 8px;
+  --radius-modal: 12px;
+
+  --shadow-card: 0 4px 12px rgba(10, 31, 63, 0.08);
+  --shadow-card-hover: 0 8px 24px rgba(10, 31, 63, 0.12);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    @apply font-sans text-base text-charcoal bg-white;
+    overflow-x: hidden;
+  }
+
+  h1 {
+    @apply text-3xl md:text-5xl font-bold text-navy leading-tight tracking-tight;
+  }
+
+  h2 {
+    @apply text-2xl md:text-4xl font-bold text-navy leading-tight tracking-tight;
+  }
+
+  h3 {
+    @apply text-xl md:text-2xl font-semibold text-navy;
+  }
+
+  h4 {
+    @apply text-lg font-semibold text-navy;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-teal outline-offset-2 rounded;
+  }
+
+  ::selection {
+    @apply bg-teal/20 text-navy;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .container-site {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-padding {
+    @apply py-12 md:py-16;
+  }
+
+  .text-overline {
+    @apply text-sm uppercase tracking-widest text-teal font-light;
+  }
+
+  .card-base {
+    @apply bg-white border border-gray-light rounded-card;
+  }
+}
+
+@layer utilities {
+  .bg-hexagon-pattern {
+    background-image: url('/images/patterns/hexagon-pattern.svg');
+    background-repeat: repeat;
+    background-size: 60px 60px;
+    opacity: 0.05;
+  }
 }

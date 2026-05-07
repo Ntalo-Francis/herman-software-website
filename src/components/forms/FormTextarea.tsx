@@ -1,0 +1,34 @@
+interface FormTextareaProps {
+  label: string;
+  name: string;
+  placeholder?: string;
+  required?: boolean;
+  rows?: number;
+}
+
+export function FormTextarea({
+  label,
+  name,
+  placeholder,
+  required = false,
+  rows = 5,
+}: FormTextareaProps) {
+  return (
+    <div>
+      <label
+        htmlFor={name}
+        className="text-overline mb-1 block text-charcoal"
+      >
+        {label} {required && <span className="text-error">*</span>}
+      </label>
+      <textarea
+        id={name}
+        name={name}
+        placeholder={placeholder}
+        required={required}
+        rows={rows}
+        className="w-full rounded-md border border-gray-medium/30 bg-white px-4 py-3 text-body text-charcoal placeholder:text-gray-medium focus:border-teal focus:outline-none focus:ring-1 focus:ring-teal transition-colors resize-vertical"
+      />
+    </div>
+  );
+}
