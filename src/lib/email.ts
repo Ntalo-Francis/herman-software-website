@@ -110,7 +110,7 @@ export function buildQuoteEmail(data: {
   name: string;
   email: string;
   phone?: string;
-  company: string;
+  company?: string;
   projectType?: string[];
   budget?: string;
   timeline?: string;
@@ -143,7 +143,7 @@ export function buildQuoteEmail(data: {
   };
 
   return {
-    subject: `New Quote Request from ${data.name} - ${data.company}`,
+    subject: `New Quote Request from ${data.name}${data.company ? " - " + data.company : ""}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #0A1F3F;">New Quote Request</h2>
@@ -151,7 +151,7 @@ export function buildQuoteEmail(data: {
           <tr><td style="padding: 8px; border-bottom: 1px solid #E2E8F0; font-weight: bold;">Name</td><td style="padding: 8px; border-bottom: 1px solid #E2E8F0;">${data.name}</td></tr>
           <tr><td style="padding: 8px; border-bottom: 1px solid #E2E8F0; font-weight: bold;">Email</td><td style="padding: 8px; border-bottom: 1px solid #E2E8F0;">${data.email}</td></tr>
           ${data.phone ? `<tr><td style="padding: 8px; border-bottom: 1px solid #E2E8F0; font-weight: bold;">Phone</td><td style="padding: 8px; border-bottom: 1px solid #E2E8F0;">${data.phone}</td></tr>` : ""}
-          <tr><td style="padding: 8px; border-bottom: 1px solid #E2E8F0; font-weight: bold;">Company</td><td style="padding: 8px; border-bottom: 1px solid #E2E8F0;">${data.company}</td></tr>
+          ${data.company ? `<tr><td style="padding: 8px; border-bottom: 1px solid #E2E8F0; font-weight: bold;">Company</td><td style="padding: 8px; border-bottom: 1px solid #E2E8F0;">${data.company}</td></tr>` : ""}
           ${data.projectType?.length ? `<tr><td style="padding: 8px; border-bottom: 1px solid #E2E8F0; font-weight: bold;">Project Type</td><td style="padding: 8px; border-bottom: 1px solid #E2E8F0;">${data.projectType.join(", ")}</td></tr>` : ""}
           ${data.budget ? `<tr><td style="padding: 8px; border-bottom: 1px solid #E2E8F0; font-weight: bold;">Budget</td><td style="padding: 8px; border-bottom: 1px solid #E2E8F0;">${budgetLabels[data.budget] || data.budget}</td></tr>` : ""}
           ${data.timeline ? `<tr><td style="padding: 8px; border-bottom: 1px solid #E2E8F0; font-weight: bold;">Timeline</td><td style="padding: 8px; border-bottom: 1px solid #E2E8F0;">${timelineLabels[data.timeline] || data.timeline}</td></tr>` : ""}
