@@ -119,7 +119,7 @@ export function QuoteForm() {
           <FormInput label="Full Name" name="name" placeholder="Your full name" required />
           <FormInput label="Email Address" name="email" type="email" placeholder="you@example.com" required />
           <FormInput label="Phone Number" name="phone" type="tel" placeholder="+256 XXX XXXXXX" />
-          <FormInput label="Company / Organization" name="company" placeholder="Your company name" required />
+          <FormInput label="Company / Organization" name="company" placeholder="Your company name" />
         </div>
       )}
 
