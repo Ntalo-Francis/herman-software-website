@@ -5,27 +5,32 @@ let transporter: nodemailer.Transporter | null = null;
 async function getTransporter() {
   if (transporter) return transporter;
 
-  // Use real SMTP if configured, otherwise create an Ethereal test account
-  if (process.env.EMAIL_HOST && process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+  const host = process.env.EMAIL_HOST;
+  const user = process.env.EMAIL_USER;
+  const pass = process.env.EMAIL_PASS;
+
+  // Debug: log what we have (will show in Vercel build logs)
+  console.log("Email config check:", {
+    host: host ? "SET" : "MISSING",
+    user: user ? "SET" : "MISSING",
+    pass: pass ? "SET" : "MISSING",
+  });
+
+  if (host && user && pass) {
+    console.log("Using real SMTP:", host);
     transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
+      host: host,
       port: parseInt(process.env.EMAIL_PORT || "587"),
       secure: false,
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: user,
+        pass: pass,
       },
     });
-    console.log("Using configured SMTP:", process.env.EMAIL_HOST);
   } else {
-    // Auto-create free Ethereal test account
+    console.log("SMTP not configured, using Ethereal test account");
     const testAccount = await nodemailer.createTestAccount();
-    console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-    console.log("📧 Ethereal Test Account (auto-created)");
-    console.log("   User:", testAccount.user);
-    console.log("   Pass:", testAccount.pass);
-    console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-
+    console.log("Ethereal user:", testAccount.user);
     transporter = nodemailer.createTransport({
       host: "smtp.ethereal.email",
       port: 587,
@@ -46,34 +51,33 @@ interface SendEmailParams {
 }
 
 export async function sendEmail({ subject, html }: SendEmailParams) {
-  const transport = await getTransporter();
-
-  const mailOptions = {
-    from: process.env.EMAIL_FROM || "noreply@hermansoftware.com",
-    to: process.env.EMAIL_TO || "info@hermansoftware.com",
-    subject,
-    html,
-  };
-
   try {
-    const info = await transport.sendMail(mailOptions);
+    const transport = await getTransporter();
 
-    // Log preview URL for Ethereal emails
+    const mailOptions = {
+      from: process.env.EMAIL_FROM || process.env.EMAIL_USER || "noreply@hermansoftware.com",
+      to: process.env.EMAIL_TO || "info@hermansoftware.com",
+      subject,
+      html,
+    };
+
+    console.log("Attempting to send email to:", mailOptions.to);
+    const info = await transport.sendMail(mailOptions);
+    console.log("Email sent successfully:", info.messageId);
+
     const previewUrl = nodemailer.getTestMessageUrl(info);
     if (previewUrl) {
-      console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-      console.log("📬 Email captured! Preview it here:");
-      console.log("   " + previewUrl);
-      console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+      console.log("Preview URL:", previewUrl);
     }
 
     return { success: true, messageId: info.messageId };
-  } catch (error) {
-    console.error("Email send error:", error);
-    return { success: false, error: "Failed to send email" };
+  } catch (error: any) {
+    console.error("Email send error:", error?.message || error);
+    return { success: false, error: error?.message || "Failed to send email" };
   }
 }
 
+// Keep all the buildContactEmail and buildQuoteEmail functions exactly as they are
 export function buildContactEmail(data: {
   name: string;
   email: string;
@@ -124,16 +128,16 @@ export function buildQuoteEmail(data: {
 }) {
   const budgetLabels: Record<string, string> = {
     "under-5k": "Under $5,000",
-    "5k-15k": "$5,000 – $15,000",
-    "15k-50k": "$15,000 – $50,000",
+    "5k-15k": "$5,000 - $15,000",
+    "15k-50k": "$15,000 - $50,000",
     "50k-plus": "$50,000+",
     "not-sure": "Not Sure Yet",
   };
 
   const timelineLabels: Record<string, string> = {
     "1-month": "Within 1 Month",
-    "1-3-months": "1–3 Months",
-    "3-6-months": "3–6 Months",
+    "1-3-months": "1-3 Months",
+    "3-6-months": "3-6 Months",
     "6-plus-months": "6+ Months",
     "not-sure": "Not Sure Yet",
   };
@@ -147,7 +151,7 @@ export function buildQuoteEmail(data: {
   };
 
   return {
-    subject: `New Quote Request from ${data.name} — ${data.company}`,
+    subject: `New Quote Request from ${data.name} - ${data.company}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #0A1F3F;">New Quote Request</h2>
