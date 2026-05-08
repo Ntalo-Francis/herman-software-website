@@ -6,7 +6,7 @@ export const contactFormSchema = z.object({
   phone: z.string().optional(),
   company: z.string().optional(),
   service: z.string().optional(),
-  message: z.string().min(20, "Message must be at least 20 characters"),
+  message: z.string().min(5, "Message must be at least 5 characters"),
 });
 
 export const quoteFormSchema = z.object({
@@ -17,7 +17,7 @@ export const quoteFormSchema = z.object({
   projectType: z.array(z.string()).optional(),
   budget: z.string().optional(),
   timeline: z.string().optional(),
-  description: z.string().min(50, "Please provide at least 50 characters describing your project"),
+  description: z.string().min(10, "Please provide at least 10 characters describing your project"),
   techPreferences: z.string().optional(),
   source: z.string().optional(),
 });
