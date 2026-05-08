@@ -9,13 +9,6 @@ async function getTransporter() {
   const user = process.env.EMAIL_USER;
   const pass = process.env.EMAIL_PASS;
 
-  // Debug: log what we have (will show in Vercel build logs)
-  console.log("Email config check:", {
-    host: host ? "SET" : "MISSING",
-    user: user ? "SET" : "MISSING",
-    pass: pass ? "SET" : "MISSING",
-  });
-
   if (host && user && pass) {
     console.log("Using real SMTP:", host);
     transporter = nodemailer.createTransport({
@@ -55,8 +48,8 @@ export async function sendEmail({ subject, html }: SendEmailParams) {
     const transport = await getTransporter();
 
     const mailOptions = {
-      from: process.env.EMAIL_FROM || process.env.EMAIL_USER || "noreply@hermansoftware.com",
-      to: process.env.EMAIL_TO || "info@hermansoftware.com",
+      from: "jaingsalim@gmail.com",
+      to: process.env.EMAIL_TO || "jaingsalim@gmail.com",
       subject,
       html,
     };
@@ -77,7 +70,6 @@ export async function sendEmail({ subject, html }: SendEmailParams) {
   }
 }
 
-// Keep all the buildContactEmail and buildQuoteEmail functions exactly as they are
 export function buildContactEmail(data: {
   name: string;
   email: string;
