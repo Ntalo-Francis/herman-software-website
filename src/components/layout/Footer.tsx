@@ -37,6 +37,7 @@ export function Footer() {
               <li><a href="/about" className="text-body-sm text-gray-medium hover:text-teal">About</a></li>
               <li><a href="/our-work" className="text-body-sm text-gray-medium hover:text-teal">Our Work</a></li>
               <li><a href="/blog" className="text-body-sm text-gray-medium hover:text-teal">Blog</a></li>
+              <li><a href="/sitemap.xml"    className="text-body-sm text-gray-medium hover:text-teal">Sitemap</a></li>
               <li><a href="/contact" className="text-body-sm text-gray-medium hover:text-teal">Contact</a></li>
             </ul>
           </div>
