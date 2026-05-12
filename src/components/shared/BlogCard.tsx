@@ -6,7 +6,16 @@ interface BlogCardProps {
   href: string;
 }
 
+function getReadingTime(text: string): string {
+  const wordsPerMinute = 200;
+  const words = text.split(/\s+/).length;
+  const minutes = Math.ceil(words / wordsPerMinute);
+  return `${minutes} min read`;
+}
+
 export function BlogCard({ title, date, excerpt, category, href }: BlogCardProps) {
+  const readingTime = getReadingTime(excerpt);
+
   return (
     <a
       href={href}
@@ -30,9 +39,12 @@ export function BlogCard({ title, date, excerpt, category, href }: BlogCardProps
         </div>
         <h3 className="text-h4 leading-snug transition-colors group-hover:text-teal">{title}</h3>
         <p className="text-body-sm text-charcoal">{excerpt}</p>
-        <span className="mt-auto text-body-sm font-medium text-teal group-hover:underline">
-          Read article →
-        </span>
+        <div className="mt-auto flex items-center justify-between">
+          <span className="text-body-sm font-medium text-teal group-hover:underline">
+            Read article →
+          </span>
+          <span className="text-xs text-gray-medium">{readingTime}</span>
+        </div>
       </div>
     </a>
   );
