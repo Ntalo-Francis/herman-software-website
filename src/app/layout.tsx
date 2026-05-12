@@ -121,7 +121,11 @@ export default function RootLayout({
       <body className="flex min-h-screen flex-col bg-white text-charcoal dark:bg-navy-dark dark:text-gray-light transition-colors">
         <SkipLink />
         <Header />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1">
+  <PageTransition>
+    {children}
+  </PageTransition>
+</main>
         <Footer />
         <WhatsAppButton />
         <BackToTop />
