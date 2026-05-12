@@ -5,7 +5,7 @@ export const siteConfig = {
   description:
     "We design, develop, and deploy robust software systems — websites, mobile apps, and enterprise platforms — built on sound architecture and delivered with clear, collaborative communication. Based in Jinja, Uganda.",
 
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://hermansoftware.com",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://herman-software-website.vercel.app/",
   ogImage: "/images/og-default.jpg",
 
   address: "Haji Tarmchi, Jinja, Uganda",
