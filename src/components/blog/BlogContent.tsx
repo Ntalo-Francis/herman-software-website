@@ -1,4 +1,4 @@
-3"use client";
+"use client";
 
 import { Badge } from "@/components/shared/Badge";
 import type { BlogPost } from "@/data/blog-posts";
