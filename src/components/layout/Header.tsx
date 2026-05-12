@@ -98,7 +98,7 @@ export function Header() {
       </div>
 
       {mobileOpen && (
-        <div className="fixed inset-0 top-16 z-40 bg-white lg:hidden overflow-y-auto">
+        <div className="fixed inset-0 top-16 z-[100] bg-white lg:hidden overflow-y-auto shadow-2xl">
           <div className="container-site flex flex-col gap-1 py-4">
             {NAV_LINKS.map((link) => {
               if ("children" in link && link.children) {
