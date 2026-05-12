@@ -48,8 +48,8 @@ export async function sendEmail({ subject, html }: SendEmailParams) {
     const transport = await getTransporter();
 
     const mailOptions = {
-      from: "infohermansoftware@gmail.com",
-      to: process.env.EMAIL_TO || "infohermansoftware@gmail.com",
+      from: "jaingsalim@gmail.com",
+      to: process.env.EMAIL_TO || "jaingsalim@gmail.com",
       subject,
       html,
     };
