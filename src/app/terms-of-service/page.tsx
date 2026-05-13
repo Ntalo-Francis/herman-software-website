@@ -38,7 +38,7 @@ export default function TermsPage() {
 
           <h2 className="mt-8">Contact</h2>
           <p className="text-body text-charcoal">
-            For questions about these Terms, please contact us at info@hermansoftware.com.
+            For questions about these Terms, please contact us at infohermansoftware@gmail.com.
           </p>
 
           <p className="mt-8 text-body-sm text-gray-medium">
