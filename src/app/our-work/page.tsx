@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { generatePageMetadata } from "@/lib/seo";
 import { PortfolioContent } from "@/components/portfolio/PortfolioContent";
+import { getProjects } from "@/sanity/queries";
 
 export const metadata: Metadata = generatePageMetadata({
   title: "Our Portfolio — Software Projects & Case Studies",
@@ -8,7 +9,9 @@ export const metadata: Metadata = generatePageMetadata({
   path: "/our-work",
 });
 
-export default function PortfolioPage() {
+export default async function PortfolioPage() {
+  const projects = await getProjects();
+
   return (
     <>
       <section className="bg-navy py-20 text-center">
@@ -21,7 +24,7 @@ export default function PortfolioPage() {
       </section>
       <section className="section-padding bg-white">
         <div className="container-site">
-          <PortfolioContent />
+          <PortfolioContent projects={projects} />
         </div>
       </section>
     </>
