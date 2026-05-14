@@ -4,7 +4,7 @@ import { getBlogPosts } from "@/sanity/queries";
 
 export default async function BlogPage() {
   const blogPosts = await getBlogPosts();
-  const categories = Array.from(new Set(blogPosts.map((p: any) => p.category)));
+  const categories: string[] = Array.from(new Set(blogPosts.map((p: any) => p.category as string)));
 
   return (
     <>
