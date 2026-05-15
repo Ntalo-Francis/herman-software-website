@@ -15,7 +15,7 @@ export const siteConfig = {
   officeHours: "Monday–Friday, 9:00 AM – 5:00 PM EAT",
 
   googleMapsEmbedUrl:
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.XXXXX!2d33.XXXXX!3d0.XXXXX!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMMKwMDAnMDAuMCJOIDMzwrAwMCcwMC4wIkU!5e0!3m2!1sen!2sug!4vXXXXXXXXXX",
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.8165!2d33.210978!3d0.439670!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMMKwMjYnMjIuOCJOIDMzwrAxMiczOS41IkU!5e0!3m2!1sen!2sug!4v1
 
   social: {
     linkedin: "https://www.linkedin.com/in/jaing-salim-2641a6280?trk=contact-info",
