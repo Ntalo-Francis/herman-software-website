@@ -1,10 +1,11 @@
 import { createClient } from "@sanity/client";
 import { blogPosts } from "../src/data/blog-posts";
 import { projects } from "../src/data/projects";
+
 const client = createClient({
   projectId: "epwpso4i",
   dataset: "production",
-  apiVersion: "2026-05-07",
+  apiVersion: "2026-05-14",
   token: process.env.SANITY_SEED_TOKEN,
   useCdn: false,
 });
@@ -22,7 +23,7 @@ async function seed() {
       category: post.category,
       excerpt: post.excerpt,
     });
-    console.log(`  ✓ ${post.title}`);
+    console.log(`  OK ${post.title}`);
   }
 
   console.log("Seeding projects...");
@@ -38,10 +39,10 @@ async function seed() {
       result: project.result,
       technologies: project.technologies,
     });
-    console.log(`  ✓ ${project.title}`);
+    console.log(`  OK ${project.title}`);
   }
 
-  console.log("\nSeeding complete!");
+  console.log("Done!");
 }
 
 seed().catch(console.error);

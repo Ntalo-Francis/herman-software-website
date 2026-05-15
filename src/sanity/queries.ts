@@ -15,8 +15,7 @@ export async function getBlogPosts() {
 
 export async function getBlogPost(slug: string) {
   return sanityClient.fetch(
-    `
-    *[_type == "blogPost" && slug.current == $slug][0] {
+    `*[_type == "blogPost" && slug.current == $slug][0] {
       "slug": slug.current,
       title,
       author,
@@ -24,8 +23,7 @@ export async function getBlogPost(slug: string) {
       category,
       excerpt,
       body
-    }
-  `,
+    }`,
     { slug }
   );
 }
@@ -46,8 +44,7 @@ export async function getProjects() {
 
 export async function getProject(slug: string) {
   return sanityClient.fetch(
-    `
-    *[_type == "project" && slug.current == $slug][0] {
+    `*[_type == "project" && slug.current == $slug][0] {
       "slug": slug.current,
       title,
       sector,
@@ -55,8 +52,7 @@ export async function getProject(slug: string) {
       solution,
       result,
       technologies
-    }
-  `,
+    }`,
     { slug }
   );
 }

@@ -65,14 +65,3 @@ export const projects: Project[] = [
     technologies: ["Node.js", "React", "MongoDB", "Google Maps API", "Socket.io"],
   },
   {
-    slug: "kazoza-pos",
-    title: "Kazoza POS — Point of Sale System",
-    sector: "Restaurant / Hospitality",
-    challenge:
-      "A growing fast-food chain with 5 outlets in Jinja and Kampala used standalone cash registers. Orders were handwritten, kitchen communication was verbal, and end-of-day reconciliation took hours with frequent errors.",
-    solution:
-      "We deployed a customized POS system with: touchscreen order taking, kitchen display system replacing paper tickets, inventory tracking with ingredient-level stock management, staff clock-in/out, and a centralized reporting dashboard accessible by the owner from any device.",
-    result: "Order-to-table time reduced by 30%, end-of-day reconciliation now takes 10 minutes.",
-    technologies: ["React", "Electron", "Node.js", "SQLite", "Socket.io"],
-  },
-];
