@@ -1,0 +1,67 @@
+export function ProductShowcase() {
+  return (
+    <section className="section-padding bg-gray-light dark:bg-navy">
+      <div className="container-site">
+        <div className="text-center mb-10">
+          <h2 className="mb-3">Try Our Products</h2>
+          <p className="mx-auto max-w-2xl text-body-lg text-charcoal dark:text-gray-light">
+            Explore the tools we've built to help millions of users.
+          </p>
+        </div>
+
+        <div className="grid gap-8 md:grid-cols-2 max-w-3xl mx-auto">
+          {/* MediaVault Card */}
+          <a
+            href="https://media-vault-website.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="card-base group p-6 transition-all duration-300 hover:shadow-cardHover hover:-translate-y-1"
+          >
+            <div className="flex items-center gap-4 mb-4">
+              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-teal/10 text-teal">
+                <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
+                  <polygon points="20,2 36,11 36,29 20,38 4,29 4,11" stroke="currentColor" strokeWidth="2.5" fill="none"/>
+                  <polyline points="12,18 20,26 28,18" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-h4 group-hover:text-teal transition-colors">MediaVault</h3>
+                <span className="text-xs font-medium text-teal bg-teal/10 px-2 py-0.5 rounded-full">Free Tool</span>
+              </div>
+            </div>
+            <p className="text-body-sm text-charcoal dark:text-gray-light mb-4">
+              Download videos and music from YouTube, Spotify, TikTok, Instagram, and more. 
+              Free, fast, and built for East Africa. No ads, no registration.
+            </p>
+            <div className="flex flex-wrap gap-2 mb-4">
+              {["YouTube", "Spotify", "TikTok", "Instagram", "MP3", "4K Video"].map((tag) => (
+                <span key={tag} className="text-xs text-gray-medium bg-gray-light dark:bg-navy-dark px-2 py-1 rounded-md">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <span className="text-body-sm font-medium text-teal group-hover:underline">
+              Try MediaVault →
+            </span>
+          </a>
+
+          {/* Future Product Placeholder */}
+          <div className="card-base p-6 border-dashed border-2 border-gray-light dark:border-navy-light flex flex-col items-center justify-center text-center min-h-[280px]">
+            <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-navy/5 text-navy dark:text-white mb-4">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+              </svg>
+            </div>
+            <h3 className="text-h4 mb-2">Coming Soon</h3>
+            <p className="text-body-sm text-charcoal dark:text-gray-light">
+              We're building more tools. Have an idea? Let us know.
+            </p>
+            <a href="/contact" className="mt-4 text-body-sm font-medium text-teal hover:underline">
+              Contact Us →
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

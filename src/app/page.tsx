@@ -7,6 +7,7 @@ import { Testimonials } from "@/components/home/Testimonials";
 import { WhyChooseUs } from "@/components/home/WhyChooseUs";
 import { BlogPreview } from "@/components/home/BlogPreview";
 import { CTABanner } from "@/components/home/CTABanner";
+import { ProductShowcase } from "@/components/home/ProductShowcase";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 
 export default function Home() {
@@ -20,6 +21,7 @@ export default function Home() {
       <AnimatedSection delay={0.1}><Testimonials /></AnimatedSection>
       <AnimatedSection delay={0.1}><WhyChooseUs /></AnimatedSection>
       <AnimatedSection delay={0.1}><BlogPreview /></AnimatedSection>
+      <AnimatedSection delay={0.1}><ProductShowcase /></AnimatedSection>
       <AnimatedSection delay={0.1}><CTABanner /></AnimatedSection>
     </>
   );
