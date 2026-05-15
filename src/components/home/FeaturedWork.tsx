@@ -1,21 +1,29 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { ProjectCard } from "@/components/shared/ProjectCard";
 import { Button } from "@/components/shared/Button";
-import { projects } from "@/data/projects";
+import { getProjects } from "@/sanity/queries";
 
 export function FeaturedWork() {
-  // Show only the first 3 projects on the homepage
-  const featured = projects.filter(function(p) { return p.slug === "mediavault-toolkit" || p.slug === "smartstock-inventory" || p.slug === "jinja-heights-booking"; });
+  const [projects, setProjects] = useState<any[]>([]);
+
+  useEffect(() => {
+    getProjects().then(setProjects);
+  }, []);
+
+  const featured = projects.slice(0, 3);
 
   return (
     <section className="section-padding bg-white">
       <div className="container-site">
         <SectionHeading
           title="Selected Projects"
-          subtitle="Real solutions we've delivered for real businesses — across retail, hospitality, agriculture, and more."
+          subtitle="Real solutions we've delivered for real businesses."
         />
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {featured.map((project) => (
+          {featured.map((project: any) => (
             <ProjectCard
               key={project.slug}
               title={project.title}
