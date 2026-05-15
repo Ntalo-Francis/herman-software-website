@@ -5,7 +5,7 @@ import { projects } from "@/data/projects";
 
 export function FeaturedWork() {
   // Show only the first 3 projects on the homepage
-  const featured = projects.slice(0, 3);
+  const featured = projects.filter(function(p) { return p.slug === "mediavault-toolkit" || p.slug === "smartstock-inventory" || p.slug === "jinja-heights-booking"; });
 
   return (
     <section className="section-padding bg-white">
