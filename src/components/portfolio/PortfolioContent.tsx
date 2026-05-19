@@ -10,6 +10,7 @@ interface Project {
   sector: string;
   challenge: string;
   result: string;
+  thumbnail?: string;
 }
 
 interface PortfolioContentProps {
@@ -34,6 +35,7 @@ export function PortfolioContent({ projects }: PortfolioContentProps) {
             challenge={project.challenge}
             result={project.result}
             href={`/our-work/${project.slug}`}
+            thumbnail={project.thumbnail}
           />
         ))}
       </div>

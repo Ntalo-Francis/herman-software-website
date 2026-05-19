@@ -4,27 +4,18 @@ interface ProjectCardProps {
   challenge: string;
   result: string;
   href: string;
+  thumbnail?: string;
 }
 
-// Screenshots for specific projects
-const screenshots: Record<string, string> = {
-  "mediavault-complete-media-toolkit": "https://herman-software-website.vercel.app/images/projects/mediavault-home.jpg",
-};
-
-export function ProjectCard({ title, sector, challenge, result, href }: ProjectCardProps) {
-  // Extract slug from href (e.g., "/our-work/mediavault-toolkit" → "mediavault-toolkit")
-  const slug = href.split("/").pop() || "";
-  const thumbnailSrc = screenshots[slug];
-
+export function ProjectCard({ title, sector, challenge, result, href, thumbnail }: ProjectCardProps) {
   return (
     <a
       href={href}
       className="card-base group flex flex-col overflow-hidden transition-all duration-300 hover:shadow-cardHover hover:-translate-y-1"
     >
-      {/* Thumbnail */}
       <div className="flex h-48 items-center justify-center bg-navy/5">
-        {thumbnailSrc ? (
-          <img src={thumbnailSrc} alt={title} className="h-full w-full object-cover" />
+        {thumbnail ? (
+          <img src={thumbnail} alt={title} className="h-full w-full object-cover" />
         ) : (
           <div className="text-center">
             <div className="mx-auto mb-2 flex h-14 w-14 items-center justify-center rounded-full bg-navy/10">
@@ -38,12 +29,8 @@ export function ProjectCard({ title, sector, challenge, result, href }: ProjectC
           </div>
         )}
       </div>
-
-      {/* Content */}
       <div className="flex flex-1 flex-col gap-3 p-5">
-        <span className="inline-block w-fit rounded-full bg-teal/10 px-3 py-1 text-xs font-medium text-teal">
-          {sector}
-        </span>
+        <span className="inline-block w-fit rounded-full bg-teal/10 px-3 py-1 text-xs font-medium text-teal">{sector}</span>
         <h3 className="text-h4 transition-colors group-hover:text-teal">{title}</h3>
         <p className="text-body-sm text-charcoal">{challenge}</p>
         <div className="mt-auto border-t border-gray-light pt-3">
