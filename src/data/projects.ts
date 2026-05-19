@@ -64,4 +64,15 @@ export const projects: Project[] = [
     result: "Fuel costs reduced by 22%, on-time deliveries improved from 68% to 91%.",
     technologies: ["Node.js", "React", "MongoDB", "Google Maps API", "Socket.io"],
   },
+  {
+    slug: "mediavault-toolkit",
+    title: "MediaVault — Complete Media Toolkit",
+    sector: "Entertainment / Media",
+    challenge: "Millions of East African users lacked a free, reliable way to download videos and music from YouTube, Spotify, TikTok, and other platforms. Existing tools were either paid, filled with ads, or banned from app stores.",
+    solution: "MediaVault is a complete media toolkit with a public website and Android APK. The website features real-time YouTube search, TikTok trending, genre browsing, and SEO-optimized song pages. The APK handles downloads directly on-device with 112+ features including quality selection, WhatsApp Status Saver, Private Vault, and phone cleaning tools.",
+    result: "Successfully built and deployed with 112+ features, real-time search across multiple platforms, SEO-optimized pages appearing in Google results, and active user base across East Africa.",
+    technologies: ["Next.js", "React", "TypeScript", "Kotlin", "Android SDK", "Python", "FastAPI", "yt-dlp", "Vercel", "Render"],
+  },
 ];
+
+
