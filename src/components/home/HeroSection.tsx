@@ -1,6 +1,16 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { Button } from "@/components/shared/Button";
+import { getSiteSettings } from "@/sanity/queries";
 
 export function HeroSection() {
+  const [settings, setSettings] = useState<any>(null);
+
+  useEffect(() => {
+    getSiteSettings().then(setSettings);
+  }, []);
+
   return (
     <section className="relative flex min-h-[85vh] items-center overflow-hidden bg-navy">
       {/* Hexagon Pattern Overlay */}
@@ -18,12 +28,10 @@ export function HeroSection() {
       {/* Content */}
       <div className="container-site relative z-10 py-20 text-center">
         <h1 className="mx-auto max-w-4xl text-white">
-          Engineered Software, Measurable Results — From Jinja, for the World
+          {settings?.heroTitle || "Engineered Software, Measurable Results — From Jinja, for the World"}
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-body-lg text-gray-medium">
-          We design, develop, and deploy robust software systems — websites, mobile apps, and
-          enterprise platforms — built on sound architecture and delivered with clear,
-          collaborative communication.
+          {settings?.heroDescription || "We design, develop, and deploy robust software systems — websites, mobile apps, and enterprise platforms — built on sound architecture and delivered with clear, collaborative communication."}
         </p>
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Button href="/our-work" variant="primary" className="min-w-[180px]">

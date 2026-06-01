@@ -1,7 +1,16 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { Button } from "@/components/shared/Button";
-import { siteConfig } from "@/data/site-config";
+import { getSiteSettings } from "@/sanity/queries";
 
 export function CTABanner() {
+  const [settings, setSettings] = useState<any>({});
+
+  useEffect(() => {
+    getSiteSettings().then(setSettings);
+  }, []);
+
   return (
     <section className="bg-navy py-16 md:py-20">
       <div className="container-site text-center">
@@ -16,12 +25,12 @@ export function CTABanner() {
           </Button>
         </div>
         <div className="mt-6 flex flex-col items-center gap-2 text-body-sm text-gray-medium sm:flex-row sm:justify-center sm:gap-6">
-          <a href={`mailto:${siteConfig.email}`} className="hover:text-teal transition-colors">
-            {siteConfig.email}
+          <a href={`mailto:${settings?.email || "infohermansoftware@gmail.com"}`} className="hover:text-teal transition-colors">
+            {settings?.email || "infohermansoftware@gmail.com"}
           </a>
           <span className="hidden sm:inline">|</span>
-          <a href={`tel:${siteConfig.phone.replace(/\D/g, "")}`} className="hover:text-teal transition-colors">
-            {siteConfig.phone}
+          <a href={`tel:${(settings?.phone || "+256772723188").replace(/\D/g, "")}`} className="hover:text-teal transition-colors">
+            {settings?.phone || "+256772723188"}
           </a>
         </div>
       </div>

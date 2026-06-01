@@ -1,10 +1,11 @@
+"use client";
 
+import { useState, useEffect } from "react";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { ServiceCard } from "@/components/shared/ServiceCard";
-import { services } from "@/data/services";
+import { getServices } from "@/sanity/queries";
 
-// Simple inline SVG icons to avoid any lucide-react import issues
-const icons: Record<string, React.ReactNode> = {
+const iconMap: Record<string, React.ReactNode> = {
   code: (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <polyline points="16 18 22 12 16 6" />
@@ -42,6 +43,12 @@ const icons: Record<string, React.ReactNode> = {
 };
 
 export function ServicesGrid() {
+  const [services, setServices] = useState<any[]>([]);
+
+  useEffect(() => {
+    getServices().then(setServices);
+  }, []);
+
   return (
     <section className="section-padding bg-white">
       <div className="container-site">
@@ -52,11 +59,11 @@ export function ServicesGrid() {
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service) => (
             <ServiceCard
-              key={service.href}
-              icon={icons[service.icon]}
+              key={service.link || service.title}
+              icon={iconMap[service.icon] || iconMap.code}
               title={service.title}
               description={service.description}
-              href={service.href}
+              href={service.link || `/services/${service.title.toLowerCase().replace(/\s+/g, "-")}`}
             />
           ))}
         </div>

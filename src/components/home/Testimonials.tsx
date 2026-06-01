@@ -3,17 +3,23 @@
 import { useState, useEffect } from "react";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { TestimonialCard } from "@/components/shared/TestimonialCard";
-import { testimonials } from "@/data/testimonials";
+import { getTestimonials } from "@/sanity/queries";
 
 export function Testimonials() {
+  const [testimonials, setTestimonials] = useState<any[]>([]);
   const [active, setActive] = useState(0);
 
   useEffect(() => {
+    getTestimonials().then(setTestimonials);
+  }, []);
+
+  useEffect(() => {
+    if (testimonials.length === 0) return;
     const timer = setInterval(() => {
       setActive((prev) => (prev + 1) % testimonials.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [testimonials.length]);
 
   return (
     <section className="section-padding bg-gray-light">
@@ -26,13 +32,20 @@ export function Testimonials() {
         {/* Desktop: Grid */}
         <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {testimonials.slice(0, 4).map((t) => (
-            <TestimonialCard key={t.name} {...t} />
+            <TestimonialCard key={t.name} name={t.name} role={t.role} quote={t.quote} rating={t.rating} />
           ))}
         </div>
 
         {/* Mobile: Carousel */}
         <div className="sm:hidden">
-          <TestimonialCard {...testimonials[active]} />
+          {testimonials.length > 0 && (
+            <TestimonialCard
+              name={testimonials[active]?.name}
+              role={testimonials[active]?.role}
+              quote={testimonials[active]?.quote}
+              rating={testimonials[active]?.rating}
+            />
+          )}
           <div className="mt-4 flex justify-center gap-2">
             {testimonials.map((_, i) => (
               <button

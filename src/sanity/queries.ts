@@ -1,5 +1,6 @@
 import { sanityClient } from "./client";
 
+// ─── Blog Posts ───────────────────────────────
 export async function getBlogPosts() {
   return sanityClient.fetch(`
     *[_type == "blogPost"] | order(publishedAt desc) {
@@ -28,6 +29,7 @@ export async function getBlogPost(slug: string) {
   );
 }
 
+// ─── Projects ─────────────────────────────────
 export async function getProjects() {
   return sanityClient.fetch(`
     *[_type == "project"] | order(title asc) {
@@ -56,4 +58,148 @@ export async function getProject(slug: string) {
     }`,
     { slug }
   );
+}
+
+// ─── Testimonials ─────────────────────────────
+export async function getTestimonials() {
+  return sanityClient.fetch(`
+    *[_type == "testimonial"] | order(order asc) {
+      name,
+      role,
+      quote,
+      rating,
+      "avatar": avatar.asset->url
+    }
+  `);
+}
+
+// ─── Services ─────────────────────────────────
+export async function getServices() {
+  return sanityClient.fetch(`
+    *[_type == "service"] | order(order asc) {
+      title,
+      description,
+      icon,
+      link,
+      features
+    }
+  `);
+}
+
+// ─── Team Members ─────────────────────────────
+export async function getTeamMembers() {
+  return sanityClient.fetch(`
+    *[_type == "teamMember"] | order(order asc) {
+      name,
+      role,
+      bio,
+      "image": image.asset->url,
+      linkedin,
+      github
+    }
+  `);
+}
+
+// ─── FAQs ─────────────────────────────────────
+export async function getFAQs() {
+  return sanityClient.fetch(`
+    *[_type == "faq"] | order(order asc) {
+      question,
+      answer,
+      category
+    }
+  `);
+}
+
+// ─── Stats ────────────────────────────────────
+export async function getStats() {
+  return sanityClient.fetch(`
+    *[_type == "stat"] | order(order asc) {
+      value,
+      label,
+      suffix
+    }
+  `);
+}
+
+// ─── Site Settings ────────────────────────────
+export async function getSiteSettings() {
+  return sanityClient.fetch(`
+    *[_type == "siteSettings"][0] {
+      siteName,
+      tagline,
+      heroTitle,
+      heroDescription,
+      email,
+      phone,
+      address,
+      workingHours,
+      whatsappNumber,
+      facebook,
+      twitter,
+      linkedin,
+      instagram,
+      youtube
+    }
+  `);
+}
+
+// ─── Process Steps ────────────────────────────
+export async function getProcessSteps() {
+  return sanityClient.fetch(`
+    *[_type == "process"] | order(stepNumber asc) {
+      stepNumber,
+      title,
+      description,
+      icon
+    }
+  `);
+}
+
+// ─── Value Propositions ───────────────────────
+export async function getValuePropositions() {
+  return sanityClient.fetch(`
+    *[_type == "valueProposition"] | order(order asc) {
+      title,
+      description,
+      icon
+    }
+  `);
+}
+
+// ─── Products ─────────────────────────────────
+export async function getProducts() {
+  return sanityClient.fetch(`
+    *[_type == "product"] | order(order asc) {
+      name,
+      tagline,
+      description,
+      badge,
+      platforms,
+      link,
+      linkText,
+      "icon": icon.asset->url
+    }
+  `);
+}
+
+// ─── Navigation ───────────────────────────────
+export async function getNavigation() {
+  return sanityClient.fetch(`
+    *[_type == "navigation"] | order(order asc) {
+      label,
+      href,
+      isButton
+    }
+  `);
+}
+
+// ─── Technologies ─────────────────────────────
+export async function getTechnologies() {
+  return sanityClient.fetch(`
+    *[_type == "technology"] | order(order asc) {
+      name,
+      "icon": icon.asset->url
+    }
+  `);
 }

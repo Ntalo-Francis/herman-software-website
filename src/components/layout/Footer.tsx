@@ -1,6 +1,15 @@
-import { siteConfig } from "@/data/site-config";
+"use client";
+
+import { useState, useEffect } from "react";
+import { getSiteSettings } from "@/sanity/queries";
 
 export function Footer() {
+  const [settings, setSettings] = useState<any>({});
+
+  useEffect(() => {
+    getSiteSettings().then(setSettings);
+  }, []);
+
   return (
     <footer className="bg-navy-dark text-white">
       <div className="container-site py-xl md:py-2xl">
@@ -19,7 +28,7 @@ export function Footer() {
                   </svg>
                 </div>
                 <div>
-                  <div className="text-lg font-bold leading-tight tracking-tight text-white">HERMAN</div>
+                  <div className="text-lg font-bold leading-tight tracking-tight text-white">{settings?.siteName || "HERMAN"}</div>
                   <div className="text-[10px] font-light uppercase tracking-[3px] text-gray-medium">Software Solutions</div>
                 </div>
               </div>
@@ -58,10 +67,10 @@ export function Footer() {
           <div>
             <h4 className="mb-4 text-body-sm font-semibold uppercase tracking-wider text-white">Contact Us</h4>
             <ul className="space-y-2 text-body-sm text-gray-medium">
-              <li>{siteConfig.address}</li>
-              <li><a href={`mailto:${siteConfig.email}`} className="hover:text-teal">{siteConfig.email}</a></li>
-              <li><a href={`tel:${siteConfig.phone.replace(/\D/g, "")}`} className="hover:text-teal">{siteConfig.phone}</a></li>
-              <li>{siteConfig.officeHours}</li>
+              <li>{settings?.address || "Haji Tarmchi, Jinja, Uganda"}</li>
+              <li><a href={`mailto:${settings?.email || "infohermansoftware@gmail.com"}`} className="hover:text-teal">{settings?.email || "infohermansoftware@gmail.com"}</a></li>
+              <li><a href={`tel:${(settings?.phone || "+256772723188").replace(/\D/g, "")}`} className="hover:text-teal">{settings?.phone || "+256772723188"}</a></li>
+              <li>{settings?.workingHours || "Monday–Friday, 9:00 AM – 5:00 PM EAT"}</li>
             </ul>
           </div>
 
@@ -69,23 +78,29 @@ export function Footer() {
           <div>
             <h4 className="mb-4 text-body-sm font-semibold uppercase tracking-wider text-white">Connect</h4>
             <div className="flex gap-3">
-              <a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="rounded-md p-2 text-gray-medium hover:bg-navy hover:text-teal">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-                  <rect width="4" height="12" x="2" y="9" />
-                  <circle cx="4" cy="4" r="2" />
-                </svg>
-              </a>
-              <a href={siteConfig.social.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="rounded-md p-2 text-gray-medium hover:bg-navy hover:text-teal">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
-                </svg>
-              </a>
-              <a href={siteConfig.social.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="rounded-md p-2 text-gray-medium hover:bg-navy hover:text-teal">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-                </svg>
-              </a>
+              {settings?.linkedin && (
+                <a href={settings.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="rounded-md p-2 text-gray-medium hover:bg-navy hover:text-teal">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                    <rect width="4" height="12" x="2" y="9" />
+                    <circle cx="4" cy="4" r="2" />
+                  </svg>
+                </a>
+              )}
+              {settings?.twitter && (
+                <a href={settings.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="rounded-md p-2 text-gray-medium hover:bg-navy hover:text-teal">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+                  </svg>
+                </a>
+              )}
+              {settings?.facebook && (
+                <a href={settings.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="rounded-md p-2 text-gray-medium hover:bg-navy hover:text-teal">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                  </svg>
+                </a>
+              )}
             </div>
           </div>
 
@@ -95,7 +110,7 @@ export function Footer() {
       {/* Bottom Bar */}
       <div className="border-t border-navy">
         <div className="container-site flex flex-col items-center justify-between gap-4 py-4 text-center sm:flex-row sm:text-left">
-          <p className="text-body-sm text-gray-medium">Last updated: May 2026 &nbsp;|&nbsp; {siteConfig.copyright}</p>
+          <p className="text-body-sm text-gray-medium">Last updated: May 2026 &nbsp;|&nbsp; © {new Date().getFullYear()} {settings?.siteName || "HERMAN Software Solutions Limited"}. All rights reserved.</p>
           <div className="flex gap-4">
             <a href="/privacy-policy" className="text-body-sm text-gray-medium hover:text-teal">Privacy Policy</a>
             <a href="/terms-of-service" className="text-body-sm text-gray-medium hover:text-teal">Terms</a>
