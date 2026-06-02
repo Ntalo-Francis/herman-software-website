@@ -1,14 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getSiteSettings } from "@/sanity/queries";
+import { getSiteSettings, getNavigation, getServices } from "@/sanity/queries";
 import { NewsletterForm } from "@/components/forms/NewsletterForm";
 
 export function Footer() {
   const [settings, setSettings] = useState<any>({});
+  const [navLinks, setNavLinks] = useState<any[]>([]);
+  const [services, setServices] = useState<any[]>([]);
 
   useEffect(() => {
     getSiteSettings().then(setSettings);
+    getNavigation().then(setNavLinks);
+    getServices().then(setServices);
   }, []);
 
   return (
@@ -43,32 +47,59 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Column 2: Quick Links */}
+          {/* Column 2: Quick Links — From Sanity Navigation */}
           <div>
             <h4 className="mb-4 text-body-sm font-semibold uppercase tracking-wider text-white">
               Quick Links
             </h4>
             <ul className="space-y-2">
-              <li><a href="/" className="text-body-sm text-gray-medium hover:text-teal transition-colors">Home</a></li>
-              <li><a href="/about" className="text-body-sm text-gray-medium hover:text-teal transition-colors">About</a></li>
-              <li><a href="/our-work" className="text-body-sm text-gray-medium hover:text-teal transition-colors">Our Work</a></li>
-              <li><a href="/blog" className="text-body-sm text-gray-medium hover:text-teal transition-colors">Blog</a></li>
-              <li><a href="/contact#map" className="text-body-sm text-gray-medium hover:text-teal transition-colors">Find Us</a></li>
-              <li><a href="/contact" className="text-body-sm text-gray-medium hover:text-teal transition-colors">Contact</a></li>
+              {navLinks.length > 0 ? (
+                navLinks.filter((link) => !link.isButton).slice(0, 6).map((link) => (
+                  <li key={link.href}>
+                    <a href={link.href} className="text-body-sm text-gray-medium hover:text-teal transition-colors">
+                      {link.label}
+                    </a>
+                  </li>
+                ))
+              ) : (
+                <>
+                  <li><a href="/" className="text-body-sm text-gray-medium hover:text-teal transition-colors">Home</a></li>
+                  <li><a href="/about" className="text-body-sm text-gray-medium hover:text-teal transition-colors">About</a></li>
+                  <li><a href="/our-work" className="text-body-sm text-gray-medium hover:text-teal transition-colors">Our Work</a></li>
+                  <li><a href="/blog" className="text-body-sm text-gray-medium hover:text-teal transition-colors">Blog</a></li>
+                  <li><a href="/contact" className="text-body-sm text-gray-medium hover:text-teal transition-colors">Contact</a></li>
+                  <li><a href="/pricing" className="text-body-sm text-gray-medium hover:text-teal transition-colors">Pricing</a></li>
+                </>
+              )}
             </ul>
           </div>
 
-          {/* Column 3: Services */}
+          {/* Column 3: Services — From Sanity Services */}
           <div>
             <h4 className="mb-4 text-body-sm font-semibold uppercase tracking-wider text-white">
               Services
             </h4>
             <ul className="space-y-2">
-              <li><a href="/services/custom-software" className="text-body-sm text-gray-medium hover:text-teal transition-colors">Custom Software</a></li>
-              <li><a href="/services/web-applications" className="text-body-sm text-gray-medium hover:text-teal transition-colors">Web Applications</a></li>
-              <li><a href="/services/mobile-development" className="text-body-sm text-gray-medium hover:text-teal transition-colors">Mobile Development</a></li>
-              <li><a href="/services/it-consulting" className="text-body-sm text-gray-medium hover:text-teal transition-colors">IT Consulting</a></li>
-              <li><a href="/services/enterprise-systems" className="text-body-sm text-gray-medium hover:text-teal transition-colors">Enterprise Systems</a></li>
+              {services.length > 0 ? (
+                services.slice(0, 6).map((service) => (
+                  <li key={service.link || service.title}>
+                    <a
+                      href={service.link || `/services/${service.title.toLowerCase().replace(/\s+/g, "-")}`}
+                      className="text-body-sm text-gray-medium hover:text-teal transition-colors"
+                    >
+                      {service.title}
+                    </a>
+                  </li>
+                ))
+              ) : (
+                <>
+                  <li><a href="/services/custom-software" className="text-body-sm text-gray-medium hover:text-teal transition-colors">Custom Software</a></li>
+                  <li><a href="/services/web-applications" className="text-body-sm text-gray-medium hover:text-teal transition-colors">Web Applications</a></li>
+                  <li><a href="/services/mobile-development" className="text-body-sm text-gray-medium hover:text-teal transition-colors">Mobile Development</a></li>
+                  <li><a href="/services/it-consulting" className="text-body-sm text-gray-medium hover:text-teal transition-colors">IT Consulting</a></li>
+                  <li><a href="/services/enterprise-systems" className="text-body-sm text-gray-medium hover:text-teal transition-colors">Enterprise Systems</a></li>
+                </>
+              )}
             </ul>
           </div>
 
