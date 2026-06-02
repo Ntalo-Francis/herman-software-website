@@ -231,3 +231,18 @@ export async function getTechnologies() {
     }
   `);
 }
+
+// ─── Related Projects ─────────────────────────
+export async function getRelatedProjects(sector: string, currentSlug: string) {
+  return sanityClient.fetch(
+    `*[_type == "project" && sector == $sector && slug.current != $currentSlug] | order(title asc) [0...3] {
+      "slug": slug.current,
+      title,
+      sector,
+      challenge,
+      result,
+      "thumbnail": thumbnail.asset->url
+    }`,
+    { sector, currentSlug }
+  );
+}
