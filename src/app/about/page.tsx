@@ -4,14 +4,16 @@ import { useState, useEffect } from "react";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { TeamCard } from "@/components/shared/TeamCard";
 import { Button } from "@/components/shared/Button";
-import { getTeamMembers } from "@/sanity/queries";
-import type { Metadata } from "next";
+import { CountUp } from "@/components/shared/CountUp";
+import { getTeamMembers, getStats } from "@/sanity/queries";
 
 export default function AboutPage() {
   const [team, setTeam] = useState<any[]>([]);
+  const [stats, setStats] = useState<any[]>([]);
 
   useEffect(() => {
     getTeamMembers().then(setTeam);
+    getStats().then(setStats);
   }, []);
 
   return (
@@ -54,6 +56,24 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      {/* Stats */}
+      {stats.length > 0 && (
+        <section className="bg-navy py-12">
+          <div className="container-site">
+            <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+              {stats.map((stat) => (
+                <div key={stat.label} className="text-center">
+                  <div className="text-3xl font-bold text-white md:text-4xl">
+                    <CountUp end={parseInt(stat.value) || 0} suffix={stat.suffix || ""} />
+                  </div>
+                  <div className="mt-2 text-body-sm text-gray-medium">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Mission & Vision */}
       <section className="section-padding bg-gray-light">
@@ -146,15 +166,15 @@ export default function AboutPage() {
           />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {team.map((member) => (
-  <TeamCard
-    key={member.name}
-    name={member.name}
-    role={member.role}
-    bio={member.bio}
-    image={member.image}
-    slug={member.slug}
-  />
-))}
+              <TeamCard
+                key={member.name}
+                name={member.name}
+                role={member.role}
+                bio={member.bio}
+                image={member.image}
+                slug={member.slug}
+              />
+            ))}
           </div>
         </div>
       </section>
