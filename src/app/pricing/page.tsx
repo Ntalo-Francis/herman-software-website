@@ -1,86 +1,24 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { Button } from "@/components/shared/Button";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
+import { getPricingPlans } from "@/sanity/queries";
+import { CardSkeleton } from "@/components/shared/Skeleton";
 import type { Metadata } from "next";
-import { generatePageMetadata } from "@/lib/seo";
-
-export const metadata: Metadata = generatePageMetadata({
-  title: "Pricing — Transparent Software Development Costs",
-  description: "Explore our transparent pricing for websites, web apps, mobile apps, and enterprise systems. Starting from $1,500. Free consultation available.",
-  path: "/pricing",
-});
-
-const plans = [
-  {
-    name: "Starter Website",
-    price: "$1,500 – $3,000",
-    timeline: "2–4 weeks",
-    features: [
-      "5-page responsive website",
-      "Contact form",
-      "SEO optimization",
-      "Mobile-friendly design",
-      "Basic analytics setup",
-      "1 month free support",
-    ],
-    cta: "Get Started",
-    href: "/get-quote",
-    highlighted: false,
-  },
-  {
-    name: "Business Web App",
-    price: "$5,000 – $15,000",
-    timeline: "2–4 months",
-    features: [
-      "Custom web application",
-      "User authentication & roles",
-      "Database design & setup",
-      "Admin dashboard",
-      "API integrations",
-      "3 months free support",
-      "Performance optimization",
-    ],
-    cta: "Get a Quote",
-    href: "/get-quote",
-    highlighted: true,
-  },
-  {
-    name: "Mobile App",
-    price: "$8,000 – $25,000",
-    timeline: "3–6 months",
-    features: [
-      "Cross-platform (Android & iOS)",
-      "Native performance",
-      "Offline support",
-      "Push notifications",
-      "App Store deployment",
-      "6 months free support",
-      "Analytics dashboard",
-    ],
-    cta: "Get a Quote",
-    href: "/get-quote",
-    highlighted: false,
-  },
-  {
-    name: "Enterprise System",
-    price: "Custom Quote",
-    timeline: "4–12 months",
-    features: [
-      "Full system architecture",
-      "ERP / CRM / POS deployment",
-      "Cloud infrastructure setup",
-      "Data migration",
-      "Staff training",
-      "12 months SLA support",
-      "Dedicated project manager",
-    ],
-    cta: "Contact Us",
-    href: "/contact",
-    highlighted: false,
-  },
-];
 
 export default function PricingPage() {
+  const [plans, setPlans] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getPricingPlans().then((data) => {
+      setPlans(data);
+      setLoading(false);
+    });
+  }, []);
+
   return (
     <>
       <section className="bg-navy py-20 text-center">
@@ -99,40 +37,46 @@ export default function PricingPage() {
             title="What Does It Cost?"
             subtitle="Starting prices for common project types. All include discovery, design, development, testing, and deployment."
           />
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {plans.map((plan) => (
-              <div
-                key={plan.name}
-                className={`card-base flex flex-col p-6 transition-all duration-300 hover:shadow-cardHover ${
-                  plan.highlighted
-                    ? "ring-2 ring-teal relative"
-                    : ""
-                }`}
-              >
-                {plan.highlighted && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-teal px-4 py-1 text-xs font-semibold text-white">
-                    Most Popular
-                  </span>
-                )}
-                <h3 className="text-h4 mb-2">{plan.name}</h3>
-                <div className="mb-1 text-2xl font-bold text-navy dark:text-white">{plan.price}</div>
-                <p className="mb-6 text-body-sm text-gray-medium">{plan.timeline}</p>
-                <ul className="mb-8 flex-1 space-y-2">
-                  {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2 text-body-sm text-charcoal">
-                      <svg className="mt-0.5 h-4 w-4 flex-shrink-0 text-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <Button href={plan.href} variant={plan.highlighted ? "primary" : "secondary"} className="w-full text-center">
-                  {plan.cta}
-                </Button>
-              </div>
-            ))}
-          </div>
+          {loading ? (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <CardSkeleton key={i} />
+              ))}
+            </div>
+          ) : (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {plans.map((plan) => (
+                <div
+                  key={plan.name}
+                  className={`card-base flex flex-col p-6 transition-all duration-300 hover:shadow-cardHover ${
+                    plan.highlighted ? "ring-2 ring-teal relative" : ""
+                  }`}
+                >
+                  {plan.highlighted && (
+                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-teal px-4 py-1 text-xs font-semibold text-white">
+                      Most Popular
+                    </span>
+                  )}
+                  <h3 className="text-h4 mb-2">{plan.name}</h3>
+                  <div className="mb-1 text-2xl font-bold text-navy dark:text-white">{plan.price}</div>
+                  {plan.timeline && <p className="mb-6 text-body-sm text-gray-medium">{plan.timeline}</p>}
+                  <ul className="mb-8 flex-1 space-y-2">
+                    {plan.features?.map((feature: string) => (
+                      <li key={feature} className="flex items-start gap-2 text-body-sm text-charcoal">
+                        <svg className="mt-0.5 h-4 w-4 flex-shrink-0 text-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                  <Button href={plan.href || "/get-quote"} variant={plan.highlighted ? "primary" : "secondary"} className="w-full text-center">
+                    {plan.cta || "Get Started"}
+                  </Button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

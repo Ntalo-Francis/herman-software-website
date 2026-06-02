@@ -246,3 +246,19 @@ export async function getRelatedProjects(sector: string, currentSlug: string) {
     { sector, currentSlug }
   );
 }
+
+// ─── Pricing Plans ────────────────────────────
+export async function getPricingPlans() {
+  return sanityClient.fetch(`
+    *[_type == "pricingPlan"] | order(order asc) {
+      name,
+      price,
+      timeline,
+      description,
+      features,
+      cta,
+      href,
+      highlighted
+    }
+  `);
+}
