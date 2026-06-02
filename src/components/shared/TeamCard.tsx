@@ -1,20 +1,22 @@
+import Link from "next/link";
+
 interface TeamCardProps {
   name: string;
   role: string;
   bio: string;
   image?: string;
+  slug?: string;
 }
 
-export function TeamCard({ name, role, bio, image }: TeamCardProps) {
+export function TeamCard({ name, role, bio, image, slug }: TeamCardProps) {
   const initials = name
     .split(" ")
     .map((n) => n[0])
     .join("")
     .toUpperCase();
 
-  return (
-    <div className="card-base flex flex-col items-center p-6 text-center transition-all duration-300 hover:shadow-cardHover">
-      {/* Avatar */}
+  const content = (
+    <div className="card-base flex flex-col items-center p-6 text-center transition-all duration-300 hover:shadow-cardHover hover:-translate-y-1">
       <div className="mb-4 h-20 w-20 overflow-hidden rounded-full bg-navy">
         {image ? (
           <img src={image} alt={name} className="h-full w-full object-cover" />
@@ -24,9 +26,24 @@ export function TeamCard({ name, role, bio, image }: TeamCardProps) {
           </div>
         )}
       </div>
-      <h3 className="text-h4">{name}</h3>
+      <h3 className="text-h4 group-hover:text-teal transition-colors">{name}</h3>
       <p className="mb-3 text-body-sm font-medium text-teal">{role}</p>
-      <p className="text-body-sm text-charcoal">{bio}</p>
+      <p className="text-body-sm text-charcoal line-clamp-3">{bio}</p>
+      {slug && (
+        <span className="mt-3 text-body-sm font-medium text-teal opacity-0 group-hover:opacity-100 transition-opacity">
+          View Profile →
+        </span>
+      )}
     </div>
   );
+
+  if (slug) {
+    return (
+      <Link href={`/team/${slug}`} className="group block">
+        {content}
+      </Link>
+    );
+  }
+
+  return content;
 }

@@ -146,14 +146,15 @@ export default function AboutPage() {
           />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {team.map((member) => (
-              <TeamCard
-                key={member.name}
-                name={member.name}
-                role={member.role}
-                bio={member.bio}
-                image={member.image}
-              />
-            ))}
+  <TeamCard
+    key={member.name}
+    name={member.name}
+    role={member.role}
+    bio={member.bio}
+    image={member.image}
+    slug={member.slug}
+  />
+))}
           </div>
         </div>
       </section>
