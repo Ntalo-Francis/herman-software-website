@@ -1,9 +1,10 @@
 import { MetadataRoute } from "next";
 import { siteConfig } from "@/data/site-config";
-import { projects } from "@/data/projects";
-import { blogPosts } from "@/data/blog-posts";
+import { getProjects } from "@/sanity/queries";
+import { getBlogPosts } from "@/sanity/queries";
+import { getTeamMembers } from "@/sanity/queries";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = siteConfig.url;
 
   const staticRoutes = [
@@ -19,21 +20,38 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/blog`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.7 },
     { url: `${baseUrl}/contact`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.9 },
     { url: `${baseUrl}/get-quote`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.9 },
+    { url: `${baseUrl}/client-portal`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.5 },
+    { url: `${baseUrl}/privacy-policy`, lastModified: new Date(), changeFrequency: "yearly" as const, priority: 0.3 },
+    { url: `${baseUrl}/terms-of-service`, lastModified: new Date(), changeFrequency: "yearly" as const, priority: 0.3 },
   ];
 
-  const projectRoutes = projects.map((project) => ({
+  // Fetch dynamic routes from Sanity
+  const [projects, blogPosts, teamMembers] = await Promise.all([
+    getProjects().catch(() => []),
+    getBlogPosts().catch(() => []),
+    getTeamMembers().catch(() => []),
+  ]);
+
+  const projectRoutes = projects.map((project: any) => ({
     url: `${baseUrl}/our-work/${project.slug}`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,
     priority: 0.6,
   }));
 
-  const blogRoutes = blogPosts.map((post) => ({
+  const blogRoutes = blogPosts.map((post: any) => ({
     url: `${baseUrl}/blog/${post.slug}`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...projectRoutes, ...blogRoutes];
+  const teamRoutes = teamMembers.map((member: any) => ({
+    url: `${baseUrl}/team/${member.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.5,
+  }));
+
+  return [...staticRoutes, ...projectRoutes, ...blogRoutes, ...teamRoutes];
 }
