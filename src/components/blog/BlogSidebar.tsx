@@ -1,9 +1,19 @@
+"use client";
+
 interface BlogSidebarProps {
   categories: string[];
-  activeCategory?: string;
+  activeCategory?: string | null;
+  onCategoryChange?: (category: string | null) => void;
 }
 
-export function BlogSidebar({ categories, activeCategory }: BlogSidebarProps) {
+export function BlogSidebar({ categories, activeCategory, onCategoryChange }: BlogSidebarProps) {
+  const handleCategoryClick = (category: string | null, e: React.MouseEvent) => {
+    if (onCategoryChange) {
+      e.preventDefault();
+      onCategoryChange(category);
+    }
+  };
+
   return (
     <aside className="space-y-8">
       {/* Categories */}
@@ -15,6 +25,7 @@ export function BlogSidebar({ categories, activeCategory }: BlogSidebarProps) {
           <li>
             <a
               href="/blog"
+              onClick={(e) => handleCategoryClick(null, e)}
               className={`text-body-sm transition-colors hover:text-teal ${
                 !activeCategory ? "font-medium text-teal" : "text-charcoal"
               }`}
@@ -26,6 +37,7 @@ export function BlogSidebar({ categories, activeCategory }: BlogSidebarProps) {
             <li key={category}>
               <a
                 href={`/blog/category/${category.toLowerCase().replace(/\s+/g, "-")}`}
+                onClick={(e) => handleCategoryClick(category, e)}
                 className={`text-body-sm transition-colors hover:text-teal ${
                   activeCategory === category ? "font-medium text-teal" : "text-charcoal"
                 }`}
