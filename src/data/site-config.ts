@@ -15,7 +15,7 @@ export const siteConfig = {
   officeHours: "Monday–Friday, 9:00 AM – 5:00 PM EAT",
 
   googleMapsEmbedUrl:
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.8165!2d33.210978!3d0.439670!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x177db0e4c5e4e6e3%3A0x8e6e3e8e6e3e8e6e!2sHaji%20Tarmchi%2C%20Jinja%2C%20Uganda!5e0!3m2!1sen!2sug!4v1",
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26639.56491890473!2d33.174934387207024!3d0.4397063009013815!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x177e7bd7011a2805%3A0x4d35e31438c6d5ff!2sHERMAN%20Software%20Solutions%20Limited!5e1!3m2!1sen!2sug!4v1780418664282!5m2!1sen!2sug" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade",
 
   social: {
     linkedin: "https://www.linkedin.com/in/jaing-salim-2641a6280?trk=contact-info",
