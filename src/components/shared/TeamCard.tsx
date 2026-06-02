@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 interface TeamCardProps {
   name: string;
@@ -17,9 +18,9 @@ export function TeamCard({ name, role, bio, image, slug }: TeamCardProps) {
 
   const content = (
     <div className="card-base flex flex-col items-center p-6 text-center transition-all duration-300 hover:shadow-cardHover hover:-translate-y-1">
-      <div className="mb-4 h-20 w-20 overflow-hidden rounded-full bg-navy">
+      <div className="mb-4 h-20 w-20 overflow-hidden rounded-full bg-navy relative">
         {image ? (
-          <img src={image} alt={name} className="h-full w-full object-cover" />
+          <Image src={image} alt={name} fill className="object-cover" sizes="80px" />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-2xl font-bold text-white">
             {initials}

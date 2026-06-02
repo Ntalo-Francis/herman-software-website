@@ -82,13 +82,27 @@ export default function ProjectDetailPage() {
               </span>
             ))}
           </div>
+          {/* Download PDF */}
+          <div className="mt-6">
+            <a
+              href={`/downloads/${project.slug}-case-study.pdf`}
+              className="inline-flex items-center gap-2 rounded-md border border-white/20 px-4 py-2 text-body-sm text-white hover:bg-white/10 transition-colors"
+              download
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              Download Case Study (PDF)
+            </a>
+          </div>
         </div>
       </section>
 
       {/* Content */}
       <section className="section-padding bg-white">
         <div className="container-site mx-auto max-w-3xl">
-          {/* Social Share */}
           <div className="mb-8">
             <SocialShare
               title={project.title}
@@ -96,25 +110,21 @@ export default function ProjectDetailPage() {
             />
           </div>
 
-          {/* Challenge */}
           <div className="mb-10">
             <h3 className="mb-3 text-teal">The Challenge</h3>
             <p className="text-body text-charcoal">{project.challenge}</p>
           </div>
 
-          {/* Solution */}
           <div className="mb-10">
             <h3 className="mb-3 text-teal">Our Solution</h3>
             <p className="text-body text-charcoal">{project.solution}</p>
           </div>
 
-          {/* Result */}
           <div className="mb-10">
             <h3 className="mb-3 text-teal">The Result</h3>
             <p className="text-body text-charcoal">{project.result}</p>
           </div>
 
-          {/* CTA */}
           <div className="rounded-card bg-gray-light p-8 text-center dark:bg-navy">
             <h3 className="mb-2">Have a Similar Project?</h3>
             <p className="mb-4 text-charcoal dark:text-gray-medium">Let&apos;s discuss how we can help your business.</p>
@@ -144,7 +154,6 @@ export default function ProjectDetailPage() {
         </section>
       )}
 
-      {/* CTA Banner */}
       <section className="bg-navy py-16 text-center">
         <div className="container-site">
           <h2 className="text-white">Ready to Start Your Project?</h2>

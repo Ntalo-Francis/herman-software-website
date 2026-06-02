@@ -121,22 +121,30 @@ export default function RootLayout({
             `,
           }}
         />
-        {/* Google Analytics */}
-        {process.env.NEXT_PUBLIC_GA_ID && (
-          <>
-            <script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`} />
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `
-                  window.dataLayer = window.dataLayer || [];
-                  function gtag(){dataLayer.push(arguments);}
-                  gtag('js', new Date());
-                  gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
-                `,
-              }}
-            />
-          </>
-        )}
+        {/* Google Analytics — Consent-based */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                var consent = localStorage.getItem('cookie-consent');
+                if (consent === 'accepted') {
+                  var gaId = '${process.env.NEXT_PUBLIC_GA_ID || ""}';
+                  if (gaId) {
+                    var script = document.createElement('script');
+                    script.async = true;
+                    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaId;
+                    document.head.appendChild(script);
+                    
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', gaId);
+                  }
+                }
+              })();
+            `,
+          }}
+        />
       </head>
       <body className="flex min-h-screen flex-col bg-white text-charcoal dark:bg-navy-dark dark:text-gray-light transition-colors">
         <SkipLink />
@@ -151,34 +159,32 @@ export default function RootLayout({
         <BackToTop />
 
         {/* Tawk.to Live Chat */}
-<script
-  type="text/javascript"
-  dangerouslySetInnerHTML={{
-    __html: `
-      var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-      
-      Tawk_API.onLoad = function(){
-        var visitorId = localStorage.getItem('tawk_visitor');
-        if (visitorId) {
-          Tawk_API.setAttributes({ id: visitorId }, function(){});
-        } else {
-          var newId = 'v_' + Date.now();
-          localStorage.setItem('tawk_visitor', newId);
-          Tawk_API.setAttributes({ id: newId }, function(){});
-        }
-      };
-      
-      (function(){
-        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-        s1.async=true;
-        s1.src='https://embed.tawk.to/6a031e36b31dab1c398e1064/1joe2s2dm';
-        s1.charset='UTF-8';
-        s1.setAttribute('crossorigin','*');
-        s0.parentNode.insertBefore(s1,s0);
-      })();
-    `,
-  }}
-/>
+        <script
+          type="text/javascript"
+          dangerouslySetInnerHTML={{
+            __html: `
+              var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+              Tawk_API.onLoad = function(){
+                var visitorId = localStorage.getItem('tawk_visitor');
+                if (visitorId) {
+                  Tawk_API.setAttributes({ id: visitorId }, function(){});
+                } else {
+                  var newId = 'v_' + Date.now();
+                  localStorage.setItem('tawk_visitor', newId);
+                  Tawk_API.setAttributes({ id: newId }, function(){});
+                }
+              };
+              (function(){
+                var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+                s1.async=true;
+                s1.src='https://embed.tawk.to/6a031e36b31dab1c398e1064/1joe2s2dm';
+                s1.charset='UTF-8';
+                s1.setAttribute('crossorigin','*');
+                s0.parentNode.insertBefore(s1,s0);
+              })();
+            `,
+          }}
+        />
         <CookieBanner />
       </body>
     </html>
