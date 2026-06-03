@@ -3,6 +3,7 @@ import { siteConfig } from "@/data/site-config";
 import { getProjects } from "@/sanity/queries";
 import { getBlogPosts } from "@/sanity/queries";
 import { getTeamMembers } from "@/sanity/queries";
+import { getJobs } from "@/sanity/queries";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = siteConfig.url;
@@ -20,16 +21,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/blog`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.7 },
     { url: `${baseUrl}/contact`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.9 },
     { url: `${baseUrl}/get-quote`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.9 },
+    { url: `${baseUrl}/pricing`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.8 },
+    { url: `${baseUrl}/testimonials`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.6 },
+    { url: `${baseUrl}/careers`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.7 },
     { url: `${baseUrl}/client-portal`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.5 },
     { url: `${baseUrl}/privacy-policy`, lastModified: new Date(), changeFrequency: "yearly" as const, priority: 0.3 },
     { url: `${baseUrl}/terms-of-service`, lastModified: new Date(), changeFrequency: "yearly" as const, priority: 0.3 },
   ];
 
   // Fetch dynamic routes from Sanity
-  const [projects, blogPosts, teamMembers] = await Promise.all([
+  const [projects, blogPosts, teamMembers, jobs] = await Promise.all([
     getProjects().catch(() => []),
     getBlogPosts().catch(() => []),
     getTeamMembers().catch(() => []),
+    getJobs().catch(() => []),
   ]);
 
   const projectRoutes = projects.map((project: any) => ({
@@ -53,5 +58,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.5,
   }));
 
-  return [...staticRoutes, ...projectRoutes, ...blogRoutes, ...teamRoutes];
+  const jobRoutes = jobs.map((job: any) => ({
+    url: `${baseUrl}/careers#${job.slug?.current || ""}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.5,
+  }));
+
+  return [...staticRoutes, ...projectRoutes, ...blogRoutes, ...teamRoutes, ...jobRoutes];
 }
