@@ -3,7 +3,6 @@ import { siteConfig } from "@/data/site-config";
 import { getProjects } from "@/sanity/queries";
 import { getBlogPosts } from "@/sanity/queries";
 import { getTeamMembers } from "@/sanity/queries";
-import { getJobs } from "@/sanity/queries";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = siteConfig.url;
@@ -34,7 +33,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getProjects().catch(() => []),
     getBlogPosts().catch(() => []),
     getTeamMembers().catch(() => []),
-    getJobs().catch(() => []),
   ]);
 
   const projectRoutes = projects.map((project: any) => ({
@@ -58,12 +56,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.5,
   }));
 
-  const jobRoutes = jobs.map((job: any) => ({
-    url: `${baseUrl}/careers#${job.slug?.current || ""}`,
-    lastModified: new Date(),
-    changeFrequency: "weekly" as const,
-    priority: 0.5,
-  }));
-
-  return [...staticRoutes, ...projectRoutes, ...blogRoutes, ...teamRoutes, ...jobRoutes];
+  return [...staticRoutes, ...projectRoutes, ...blogRoutes, ...teamRoutes];
 }
