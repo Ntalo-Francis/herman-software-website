@@ -29,7 +29,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   // Fetch dynamic routes from Sanity
-  const [projects, blogPosts, teamMembers, jobs] = await Promise.all([
+  const [projects, blogPosts, teamMembers] = await Promise.all([
     getProjects().catch(() => []),
     getBlogPosts().catch(() => []),
     getTeamMembers().catch(() => []),
