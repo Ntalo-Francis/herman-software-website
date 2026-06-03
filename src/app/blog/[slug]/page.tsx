@@ -2,10 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { getBlogPost } from "@/sanity/queries";
+import Head from "next/head";
+import { getBlogPost, getRelatedBlogPosts } from "@/sanity/queries";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { SocialShare } from "@/components/shared/SocialShare";
 import { TableOfContents } from "@/components/blog/TableOfContents";
+import { BlogCard } from "@/components/shared/BlogCard";
 import { Button } from "@/components/shared/Button";
 import { Skeleton } from "@/components/shared/Skeleton";
 import { PortableText } from "@portabletext/react";
@@ -13,12 +15,16 @@ import { PortableText } from "@portabletext/react";
 export default function BlogPostPage() {
   const { slug } = useParams();
   const [post, setPost] = useState<any>(null);
+  const [relatedPosts, setRelatedPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (slug) {
       getBlogPost(slug as string).then((data) => {
         setPost(data);
+        if (data?.category) {
+          getRelatedBlogPosts(data.category, slug as string).then(setRelatedPosts);
+        }
         setLoading(false);
       });
     }
@@ -56,8 +62,32 @@ export default function BlogPostPage() {
     );
   }
 
+  // Structured Data for Google
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    author: {
+      "@type": "Person",
+      name: post.author,
+    },
+    datePublished: post.publishedAt,
+    publisher: {
+      "@type": "Organization",
+      name: "HERMAN Software Solutions",
+    },
+  };
+
   return (
     <>
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+        />
+      </Head>
+
       {/* Hero */}
       <section className="bg-navy py-16 md:py-20">
         <div className="container-site">
@@ -75,7 +105,7 @@ export default function BlogPostPage() {
           <div className="mt-4 flex items-center gap-4 text-body-sm text-gray-medium">
             <span>By {post.author}</span>
             <span>•</span>
-            <span>{new Date(post.publishedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</span>
+            <span>Published {new Date(post.publishedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</span>
           </div>
         </div>
       </section>
@@ -109,15 +139,41 @@ export default function BlogPostPage() {
                 </div>
               </aside>
             </div>
+
+            {/* Back to Blog */}
+            <div className="mt-12 text-center">
+              <Button href="/blog" variant="secondary">← Back to Blog</Button>
+            </div>
           </div>
         </div>
       </section>
 
+      {/* Related Posts */}
+      {relatedPosts.length > 0 && (
+        <section className="section-padding bg-gray-light">
+          <div className="container-site">
+            <h2 className="mb-8 text-center">Related Articles</h2>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {relatedPosts.map((rp: any) => (
+                <BlogCard
+                  key={rp.slug}
+                  title={rp.title}
+                  date={rp.publishedAt}
+                  excerpt={rp.excerpt}
+                  category={rp.category}
+                  href={`/blog/${rp.slug}`}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* CTA */}
-      <section className="bg-gray-light py-16 text-center">
+      <section className="bg-navy py-16 text-center">
         <div className="container-site">
-          <h2>Enjoyed This Article?</h2>
-          <p className="mx-auto mt-4 max-w-xl text-body-lg text-charcoal">
+          <h2 className="text-white">Enjoyed This Article?</h2>
+          <p className="mx-auto mt-4 max-w-xl text-body-lg text-gray-medium">
             Subscribe to our newsletter for more insights on software engineering and technology.
           </p>
           <div className="mt-8">

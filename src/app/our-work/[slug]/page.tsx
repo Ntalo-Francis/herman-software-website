@@ -53,7 +53,7 @@ export default function ProjectDetailPage() {
       <section className="section-padding bg-white text-center">
         <div className="container-site">
           <h1 className="mb-4">Project Not Found</h1>
-          <p className="text-charcoal mb-6">The project you&apos;re looking for doesn&apos;t exist.</p>
+          <p className="text-charcoal mb-6">The project you're looking for doesn't exist.</p>
           <Button href="/our-work" variant="primary">View All Projects</Button>
         </div>
       </section>
@@ -83,6 +83,23 @@ export default function ProjectDetailPage() {
               </span>
             ))}
           </div>
+
+          {/* Image Gallery */}
+          {project.gallery && project.gallery.length > 0 && (
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {project.gallery.map((img: string, i: number) => (
+                <div key={i} className="overflow-hidden rounded-lg border border-white/10">
+                  <img
+                    src={img}
+                    alt={`${project.title} screenshot ${i + 1}`}
+                    className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300 cursor-pointer"
+                    onClick={() => window.open(img, "_blank")}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+
           {/* Download PDF */}
           <div className="mt-6">
             <DownloadPDF
@@ -124,7 +141,7 @@ export default function ProjectDetailPage() {
 
           <div className="rounded-card bg-gray-light p-8 text-center dark:bg-navy">
             <h3 className="mb-2">Have a Similar Project?</h3>
-            <p className="mb-4 text-charcoal dark:text-gray-medium">Let&apos;s discuss how we can help your business.</p>
+            <p className="mb-4 text-charcoal dark:text-gray-medium">Let's discuss how we can help your business.</p>
             <Button href="/get-quote" variant="primary">Get a Quote</Button>
           </div>
         </div>
@@ -155,7 +172,7 @@ export default function ProjectDetailPage() {
         <div className="container-site">
           <h2 className="text-white">Ready to Start Your Project?</h2>
           <p className="mx-auto mt-4 max-w-xl text-body-lg text-gray-medium">
-            Let&apos;s talk about your requirements. Free consultation, no obligation.
+            Let's talk about your requirements. Free consultation, no obligation.
           </p>
           <div className="mt-8">
             <Button href="/contact" variant="primary">Start the Conversation</Button>

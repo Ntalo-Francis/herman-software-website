@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 interface BlogCardProps {
   title: string;
   date: string;
@@ -15,9 +17,14 @@ function getReadingTime(text: string): string {
 
 export function BlogCard({ title, date, excerpt, category, href }: BlogCardProps) {
   const readingTime = getReadingTime(excerpt);
+  const formattedDate = new Date(date).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
 
   return (
-    <a
+    <Link
       href={href}
       className="card-base group flex flex-col overflow-hidden transition-all duration-300 hover:shadow-cardHover hover:-translate-y-1"
     >
@@ -35,10 +42,10 @@ export function BlogCard({ title, date, excerpt, category, href }: BlogCardProps
       <div className="flex flex-1 flex-col gap-2 p-5">
         <div className="flex items-center gap-3">
           <span className="text-xs font-medium uppercase tracking-wider text-teal">{category}</span>
-          <span className="text-xs text-gray-medium">{date}</span>
+          <span className="text-xs text-gray-medium">{formattedDate}</span>
         </div>
         <h3 className="text-h4 leading-snug transition-colors group-hover:text-teal">{title}</h3>
-        <p className="text-body-sm text-charcoal">{excerpt}</p>
+        <p className="text-body-sm text-charcoal line-clamp-2">{excerpt}</p>
         <div className="mt-auto flex items-center justify-between">
           <span className="text-body-sm font-medium text-teal group-hover:underline">
             Read article →
@@ -46,6 +53,6 @@ export function BlogCard({ title, date, excerpt, category, href }: BlogCardProps
           <span className="text-xs text-gray-medium">{readingTime}</span>
         </div>
       </div>
-    </a>
+    </Link>
   );
 }

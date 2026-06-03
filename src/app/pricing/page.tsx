@@ -4,17 +4,18 @@ import { useState, useEffect } from "react";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { Button } from "@/components/shared/Button";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
-import { getPricingPlans } from "@/sanity/queries";
+import { getPricingPlans, getFAQs } from "@/sanity/queries";
 import { CardSkeleton } from "@/components/shared/Skeleton";
-import type { Metadata } from "next";
 
 export default function PricingPage() {
   const [plans, setPlans] = useState<any[]>([]);
+  const [faqs, setFaqs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getPricingPlans().then((data) => {
-      setPlans(data);
+    Promise.all([getPricingPlans(), getFAQs()]).then(([p, f]) => {
+      setPlans(p);
+      setFaqs(f.filter((faq: any) => faq.category === "Pricing"));
       setLoading(false);
     });
   }, []);
@@ -92,41 +93,65 @@ export default function PricingPage() {
         </div>
       </section>
 
-      <section className="section-padding bg-white">
-        <div className="container-site mx-auto max-w-3xl">
-          <SectionHeading title="Frequently Asked Questions" subtitle="Common questions about our pricing and process." />
-          <div className="space-y-4">
-            {[
-              {
-                q: "Why the price range?",
-                a: "Every project is unique. The final cost depends on complexity, number of features, integrations required, and timeline. We provide a firm quote after understanding your requirements — never a surprise invoice.",
-              },
-              {
-                q: "Do you offer payment plans?",
-                a: "Yes. For projects over $5,000, we typically split payments into milestones: 30% upfront, 30% at midpoint, and 40% on delivery. We're flexible — let's discuss what works for your budget.",
-              },
-              {
-                q: "What's included in the price?",
-                a: "All our prices include: discovery workshops, system architecture, UI/UX design, development, testing, deployment, documentation, and the included support period. No hidden fees.",
-              },
-              {
-                q: "Do you work with startups on a tight budget?",
-                a: "Absolutely. We've worked with many startups and can tailor solutions to fit your budget. Sometimes an MVP (Minimum Viable Product) is the right starting point — we can help you prioritize features.",
-              },
-            ].map((faq) => (
-              <details key={faq.q} className="card-base group">
-                <summary className="flex cursor-pointer items-center justify-between p-4 font-medium text-charcoal dark:text-white">
-                  {faq.q}
-                  <svg className="h-5 w-5 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <polyline points="6 9 12 15 18 9" />
-                  </svg>
-                </summary>
-                <p className="px-4 pb-4 text-body-sm text-charcoal dark:text-gray-medium">{faq.a}</p>
-              </details>
-            ))}
+      {faqs.length > 0 && (
+        <section className="section-padding bg-white">
+          <div className="container-site mx-auto max-w-3xl">
+            <SectionHeading title="Frequently Asked Questions" subtitle="Common questions about our pricing and process." />
+            <div className="space-y-4">
+              {faqs.map((faq) => (
+                <details key={faq.question} className="card-base group">
+                  <summary className="flex cursor-pointer items-center justify-between p-4 font-medium text-charcoal dark:text-white">
+                    {faq.question}
+                    <svg className="h-5 w-5 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                  </summary>
+                  <p className="px-4 pb-4 text-body-sm text-charcoal dark:text-gray-medium">{faq.answer}</p>
+                </details>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
+
+      {/* Fallback hardcoded FAQs if Sanity has none */}
+      {faqs.length === 0 && !loading && (
+        <section className="section-padding bg-white">
+          <div className="container-site mx-auto max-w-3xl">
+            <SectionHeading title="Frequently Asked Questions" subtitle="Common questions about our pricing and process." />
+            <div className="space-y-4">
+              {[
+                {
+                  q: "Why the price range?",
+                  a: "Every project is unique. The final cost depends on complexity, number of features, integrations required, and timeline. We provide a firm quote after understanding your requirements — never a surprise invoice.",
+                },
+                {
+                  q: "Do you offer payment plans?",
+                  a: "Yes. For projects over $5,000, we typically split payments into milestones: 30% upfront, 30% at midpoint, and 40% on delivery. We're flexible — let's discuss what works for your budget.",
+                },
+                {
+                  q: "What's included in the price?",
+                  a: "All our prices include: discovery workshops, system architecture, UI/UX design, development, testing, deployment, documentation, and the included support period. No hidden fees.",
+                },
+                {
+                  q: "Do you work with startups on a tight budget?",
+                  a: "Absolutely. We've worked with many startups and can tailor solutions to fit your budget. Sometimes an MVP (Minimum Viable Product) is the right starting point — we can help you prioritize features.",
+                },
+              ].map((faq) => (
+                <details key={faq.q} className="card-base group">
+                  <summary className="flex cursor-pointer items-center justify-between p-4 font-medium text-charcoal dark:text-white">
+                    {faq.q}
+                    <svg className="h-5 w-5 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                  </summary>
+                  <p className="px-4 pb-4 text-body-sm text-charcoal dark:text-gray-medium">{faq.a}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
     </>
   );
 }

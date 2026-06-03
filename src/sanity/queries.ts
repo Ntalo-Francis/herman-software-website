@@ -54,7 +54,9 @@ export async function getProject(slug: string) {
       challenge,
       solution,
       result,
-      technologies
+      technologies,
+      "thumbnail": thumbnail.asset->url,
+      "gallery": gallery[].asset->url
     }`,
     { slug }
   );
@@ -277,4 +279,17 @@ export async function getJobs() {
       applyEmail
     }
   `);
+}
+
+export async function getRelatedBlogPosts(category: string, currentSlug: string) {
+  return sanityClient.fetch(
+    `*[_type == "blogPost" && category == $category && slug.current != $currentSlug] | order(publishedAt desc) [0...3] {
+      "slug": slug.current,
+      title,
+      excerpt,
+      category,
+      publishedAt
+    }`,
+    { category, currentSlug }
+  );
 }
