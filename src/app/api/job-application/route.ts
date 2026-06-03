@@ -76,23 +76,24 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Failed to send application." }, { status: 500 });
     }
 
-    // Send WhatsApp notification
-    const whatsappBody = `📬 *New Job Application!*\n\n*Position:* ${jobTitle}\n*Name:* ${name}\n*Email:* ${email}\n${phone ? `*Phone:* ${phone}\n` : ""}\n*Cover Letter:* ${coverLetter.substring(0, 150)}...\n\n📎 Full details & CV sent to email.`;
+    // Send SMS notification
+const smsBody = `New Job Application! Position: ${jobTitle}, Name: ${name}, Email: ${email}${phone ? `, Phone: ${phone}` : ""}. Full details & CV sent to email.`;
 
-    await fetch("https://api.brevo.com/v3/transactionalSMS/sms", {
-      method: "POST",
-      headers: {
-        "api-key": BREVO_API_KEY,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        sender: "HERMAN",
-        recipient: "+256772723188",
-        content: whatsappBody,
-      }),
-    }).catch((err) => console.log("WhatsApp notification skipped:", err.message));
+await fetch("https://api.brevo.com/v3/transactionalSMS/sms", {
+  method: "POST",
+  headers: {
+    "api-key": BREVO_API_KEY,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    sender: "HERMAN",
+    recipient: "+256772723188",
+    content: smsBody,
+    unicodeEnabled: false,
+  }),
+}).catch((err) => console.log("SMS notification skipped:", err.message));
 
-    return NextResponse.json({ success: true, message: "Application submitted!" });
+return NextResponse.json({ success: true, message: "Application submitted!" });
   } catch (error) {
     console.error("Job application error:", error);
     return NextResponse.json({ error: "Server error." }, { status: 500 });
