@@ -164,6 +164,9 @@ export default function RootLayout({
       var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
       
       Tawk_API.onLoad = function(){
+        // Suppress performance logging CORS errors
+        Tawk_API.logPerformance = function(){};
+        
         var visitorId = localStorage.getItem('tawk_visitor');
         if (visitorId) {
           Tawk_API.setAttributes({ id: visitorId }, function(){});
