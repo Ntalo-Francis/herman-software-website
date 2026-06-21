@@ -1,21 +1,5 @@
-// src/app/api/whatsapp/route.ts
-//
+
 // WhatsApp Customer Service Bot — Next.js App Router API route
-// ----------------------------------------------------------------
-// Setup:
-// 1. Place this file at: src/app/api/whatsapp/route.ts
-// 2. Add these to your .env.local (and to Vercel's Environment Variables
-//    under Project Settings > Environment Variables for production):
-//
-//   
-//
-// 3. Push to GitHub -> Vercel auto-deploys -> your webhook URL becomes:
-//    https://herman-software-website.vercel.app/api/whatsapp
-//
-// 4. In Meta dashboard > WhatsApp > Configuration:
-//    - Callback URL: https://herman-software-website.vercel.app/api/whatsapp
-//    - Verify token: same string as WHATSAPP_VERIFY_TOKEN
-//    - Subscribe to the "messages" field
 
 import { NextRequest, NextResponse } from "next/server";
 
