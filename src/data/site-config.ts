@@ -10,8 +10,8 @@ export const siteConfig = {
 
   address: "Haji Tarmchi, Jinja, Uganda",
   email: "infohermansoftware@gmail.com",
-  phone: "+256772723188",
-  whatsapp: "+256772723188",
+  phone: "+256740606007",
+  whatsapp: "+256740606007",
   officeHours: "Monday–Friday, 9:00 AM – 5:00 PM EAT",
 
   googleMapsEmbedUrl:
